@@ -179,7 +179,9 @@ def crumbs(c, items):
 
 # ---------- JSON-LD ----------
 def org_ld(c):
-    return {"@type": "Organization", "@id": BASE + "/#org", "name": ORG, "alternateName": ORG_AR, "url": BASE + "/",
+    return {"@type": "Organization", "@id": BASE + "/#org", "name": ORG, "alternateName": ALT_NAMES, "url": BASE + "/",
+            "description": T["foot_p"][0], "areaServed": ["India", "United Arab Emirates", "United States", "Worldwide"],
+            "knowsAbout": [p["full"][0] for p in PRODUCTS],
             "logo": BASE + "/assets/img/rr-exports-international-logo.jpg", "email": EMAIL, "telephone": PHONE,
             "address": {"@type": "PostalAddress", "addressLocality": "Surendranagar", "addressRegion": "Gujarat", "addressCountry": "IN"},
             "contactPoint": {"@type": "ContactPoint", "telephone": PHONE, "email": EMAIL, "contactType": "sales"}}
@@ -188,7 +190,7 @@ def crumb_ld(c, items):
 def faq_ld(c):
     return {"@type": "FAQPage", "mainEntity": [{"@type": "Question", "name": c.x(q), "acceptedAnswer": {"@type": "Answer", "text": c.x(a)}} for q, a in FAQ]}
 def product_ld(c, p):
-    return {"@type": "Product", "@id": c.url(p["slug"] + ".html") + "#product", "name": c.x(p["full"]), "sku": p["code"], "mpn": p["code"],
+    return {"@type": "Product", "@id": c.url(p["slug"] + ".html") + "#product", "name": c.x(p["full"]), "sku": p["code"], "mpn": p["code"], "alternateName": [f'RR Exports {p["code"]}', f'R&R Exports {c.x(p["name"])}'],
             "description": c.x(p["desc"]), "brand": {"@type": "Brand", "name": ORG}, "manufacturer": {"@id": BASE + "/#org"},
             "category": "Collapsible silicone water bottles", "material": "Silicone",
             "image": [f'{BASE}/assets/img/{n}.jpg' for n, _ in p["imgs"]], "color": [col[0] for col in p["colours"]],
@@ -216,6 +218,9 @@ def page(c, key, body, ld=(), viewer_on=False, og_img="og-image.jpg", pid=""):
 <title>{ESC(c.x(title))}</title>
 <meta name="description" content="{ESC(c.x(desc))}">
 <meta name="robots" content="index, follow, max-image-preview:large">
+<meta name="author" content="{ORG}">
+<meta name="geo.region" content="IN-GJ">
+<meta name="geo.placename" content="Surendranagar, Gujarat, India">
 <link rel="canonical" href="{c.url(f)}">
 <link rel="alternate" hreflang="en" href="{c.url(f, 0)}">
 <link rel="alternate" hreflang="ar" href="{c.url(f, 1)}">
@@ -240,7 +245,7 @@ def page(c, key, body, ld=(), viewer_on=False, og_img="og-image.jpg", pid=""):
 <body data-product="{pid}">
 <a class="skip" href="#main">{c.t("skip")}</a>
 <header class="hd"><div class="wrap hdin">
-<a class="brand" href="index.html"><img src="{c.A}img/rr-exports-international-logo.jpg" width="44" height="44" alt="{ORG} logo"><span><b>R&amp;R Exports</b><small>{c.t("tagline")}</small></span></a>
+<a class="brand" href="index.html"><img src="{c.A}img/rr-exports-international-logo.jpg" width="44" height="44" alt="{ORG} (RR Exports) logo"><span><b>R&amp;R Exports</b><small>{c.t("tagline")}</small></span></a>
 <nav class="nav" id="nav" aria-label="Main">{navh}<a class="lang m" href="{other}" hreflang="{"en" if c.ar else "ar"}" lang="{"en" if c.ar else "ar"}">{c.t("lang_other")}</a></nav>
 <div class="hdact"><a class="lang d" href="{other}" hreflang="{"en" if c.ar else "ar"}" lang="{"en" if c.ar else "ar"}">{c.t("lang_other")}</a>
 <button type="button" class="enqbtn" aria-label="{c.t("enq_list")}">{ic("bag")}<span class="cnt">0</span></button>
@@ -250,7 +255,7 @@ def page(c, key, body, ld=(), viewer_on=False, og_img="og-image.jpg", pid=""):
 {body}
 </main>
 <footer class="ft"><div class="wrap ftg">
-<div><a class="brand" href="index.html"><img src="{c.A}img/rr-exports-international-logo.jpg" width="44" height="44" alt="" loading="lazy"><span><b>R&amp;R Exports</b><small>INTERNATIONAL</small></span></a><p>{c.t("foot_p")}</p></div>
+<div><a class="brand" href="index.html"><img src="{c.A}img/rr-exports-international-logo.jpg" width="44" height="44" alt="" loading="lazy"><span><b>R&amp;R Exports</b><small>INTERNATIONAL</small></span></a><p>{c.t("foot_p")}</p><p>{c.t("foot_aka")}</p></div>
 <div><h2>{c.t("foot_products")}</h2><ul>{prods_f}</ul></div>
 <div><h2>{c.t("foot_company")}</h2><ul>{comp_f}<li><a href="contact.html">{c.t("nav_contact")}</a></li></ul></div>
 <div><h2>{c.t("foot_contact")}</h2><ul class="ftc"><li>{ic("mail")}<a href="mailto:{EMAIL}" dir="ltr">{EMAIL}</a></li><li>{ic("phone")}<a href="tel:+{PHONE_RAW}" dir="ltr">{PHONE}</a></li><li>{ic("pin")}<span>{c.t("addr")}</span></li></ul></div>
@@ -275,10 +280,10 @@ def home(c):
     order2 = [PROD["cb02"], PROD["cb01"], PROD["cb03"], PROD["cb04"]]
     body = f'''<section class="hero"><div class="wrap herog">
 <div class="herot"><p class="eyebrow">{c.t("eyebrow")}</p><h1>{c.t("h1")}</h1><p class="lead">{c.t("hero_p")}</p>
-<div class="btns"><a class="btn pri qopen" href="contact.html">{c.t("quote")}</a><a class="btn light" href="products.html">{c.t("see_range")}</a></div></div>
+<div class="btns"><a class="btn pri qopen" href="contact.html">{c.t("quote")}</a><a class="btn light" href="products.html">{c.t("see_range")}</a><a class="btn ghost" href="#range">{c.t("all_btn")}</a></div></div>
 {viewer(c, order2, c.t("eyebrow"))}
 </div><div class="wrap"><div class="stats">{stats}</div></div></section>
-<section class="band"><div class="wrap"><div class="shead"><p class="eyebrow">{c.t("range_eyebrow")}</p><h2>{c.t("range_t")}</h2><p>{c.t("range_p")}</p></div>{grid(c, PRODUCTS)}</div></section>
+<section class="band" id="range"><div class="wrap"><div class="shead"><p class="eyebrow">{c.t("range_eyebrow")}</p><h2>{c.t("range_t")}</h2><p>{c.t("range_p")}</p></div>{grid(c, PRODUCTS)}</div></section>
 {videos(c, ["cb01", "cb02"])}
 <section class="band teal"><div class="wrap split"><div><h2>{c.t("sell_t")}</h2>{sell(c)}<h3 class="sub">{c.t("serve_t")}</h3>{serve(c)}</div>
 <figure class="ph">{c.img("collapsible-silicone-bottle-lifestyle", c.x(("Flip-straw collapsible bottles rolled up in several colours", "زجاجات بشفّاط قلّاب ملفوفة بعدة ألوان")))}</figure></div></section>
@@ -288,7 +293,7 @@ def home(c):
 <section class="band"><div class="wrap"><div class="shead"><p class="eyebrow">{c.t("order_eyebrow")}</p><h2>{c.t("order_t")}</h2></div>{steps(c)}<p><a class="more" href="how-to-order.html">{c.t("steps_more")} →</a></p></div></section>
 <section class="band soft"><div class="wrap narrow"><h2>{c.t("faq_t")}</h2>{faq(c)}</div></section>
 {cta(c)}'''
-    ld = [{"@type": "WebSite", "@id": BASE + "/#site", "url": c.url("index.html"), "name": ORG, "inLanguage": "ar" if c.ar else "en", "publisher": {"@id": BASE + "/#org"}}, faq_ld(c),
+    ld = [{"@type": "WebSite", "@id": BASE + "/#site", "url": c.url("index.html"), "name": ORG, "alternateName": ALT_NAMES, "inLanguage": "ar" if c.ar else "en", "publisher": {"@id": BASE + "/#org"}}, faq_ld(c),
           {"@type": "ItemList", "itemListElement": [{"@type": "ListItem", "position": i + 1, "url": c.url(p["slug"] + ".html"), "name": c.x(p["full"])} for i, p in enumerate(PRODUCTS)]}]
     return page(c, "home", body, ld, viewer_on=True)
 
@@ -349,7 +354,7 @@ def order(c):
 
 def about(c):
     items = [(c.t("crumb_home"), "index.html"), (c.t("nav_about"), "")]
-    body = f'''<section class="band phead"><div class="wrap">{crumbs(c, items)}<div class="split"><div><p class="eyebrow">{c.t("who_eyebrow")}</p><h1>{c.t("who_t")}</h1><p class="lead">{c.t("who_p1")}</p><p>{c.t("who_p2")}</p></div>
+    body = f'''<section class="band phead"><div class="wrap">{crumbs(c, items)}<div class="split"><div><p class="eyebrow">{c.t("who_eyebrow")}</p><h1>{c.t("who_t")}</h1><p class="lead">{c.t("who_p1")}</p><p>{c.t("who_p2")}</p><p>{c.t("aka")}</p></div>
 <figure class="ph">{c.img("collapsible-silicone-bottle-lifestyle", c.x(("Rolled-up flip-straw silicone bottles in several colours", "زجاجات سيليكون ملفوفة بعدة ألوان")), lazy=False)}</figure></div></div></section>
 <section class="band"><div class="wrap"><h2>{c.t("why_t")}</h2>{why(c)}</div></section>
 <section class="band teal"><div class="wrap"><h2>{c.t("sell_t")}</h2>{sell(c)}<h3 class="sub">{c.t("serve_t")}</h3>{serve(c)}</div></section>
@@ -387,12 +392,13 @@ def build():
             open(os.path.join(d, f), "w", encoding="utf-8").write(h)
             if L == 0: urls.append(f)
     c0, c1 = Ctx(0), Ctx(1)
-    sm = ['<?xml version="1.0" encoding="UTF-8"?>', '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml">']
+    sm = ['<?xml version="1.0" encoding="UTF-8"?>', '<urlset xmlns="http://www.sitemaps.org/schemas/sitemap/0.9" xmlns:xhtml="http://www.w3.org/1999/xhtml" xmlns:image="http://www.google.com/schemas/sitemap-image/1.1">']
     for f in urls:
+        imgs = "".join(f'<image:image><image:loc>{BASE}/assets/img/{n}.jpg</image:loc></image:image>' for p in PRODUCTS if p["slug"] + ".html" == f for n, _ in p["imgs"])
         for c in (c0, c1):
-            sm.append(f'<url><loc>{c.url(f)}</loc><lastmod>2026-11-25</lastmod>'
+            sm.append(f'<url><loc>{c.url(f)}</loc><lastmod>2026-11-26</lastmod>'
                       f'<xhtml:link rel="alternate" hreflang="en" href="{c0.url(f)}"/><xhtml:link rel="alternate" hreflang="ar" href="{c1.url(f)}"/>'
-                      f'<xhtml:link rel="alternate" hreflang="x-default" href="{c0.url(f)}"/></url>')
+                      f'<xhtml:link rel="alternate" hreflang="x-default" href="{c0.url(f)}"/>{imgs}</url>')
     sm.append("</urlset>")
     open(os.path.join(OUT, "sitemap.xml"), "w").write("\n".join(sm))
     open(os.path.join(OUT, "robots.txt"), "w").write(f"User-agent: *\nAllow: /\n\nSitemap: {BASE}/sitemap.xml\n")

@@ -10,10 +10,18 @@ ORG = "R&R Exports International"
 # Each new address must be activated once from the email FormSubmit sends it. Use [] to turn this off.
 LEAD_EMAILS = [EMAIL, "vedantraval333@gmail.com"]
 ORG_AR = "آر آند آر إكسبورتس إنترناشونال"
+# Other names buyers search for. Used in search-engine data (schema.org) and on the About page.
+ALT_NAMES = ["RR Exports", "R&R Exports", "R and R Exports", "RR Exports International", "R and R Exports International",
+             "RR International", "R&R International", "R and R International", "RR India", "RR Exports India", "RR Exports Gujarat",
+             ORG_AR, "آر آند آر إكسبورتس"]
 
 T = {
  "skip": ("Skip to content", "تخطَّ إلى المحتوى"),
  "tagline": ("Sourcing · Private label · Export", "التوريد · العلامة الخاصة · التصدير"),
+ "all_btn": ("View all products", "عرض كل المنتجات"),
+ "aka": ("R&R Exports International is also known as RR Exports, R and R Exports and RR International. We are based in Surendranagar, Gujarat, India, and export collapsible silicone water bottles: origami foldable, flip-straw, squeeze roll-up and telescopic sports bottles.",
+         "تُعرف آر آند آر إكسبورتس إنترناشونال أيضاً باسم RR Exports وRR International. مقرّنا سورندراناغار، غوجارات، الهند، ونصدّر زجاجات مياه سيليكون قابلة للطي: أوريغامي وبشفّاط قلّاب وملفوفة وتلسكوبية."),
+ "foot_aka": ("RR Exports · Surendranagar, Gujarat, India", "RR Exports · سورندراناغار، غوجارات، الهند"),
  "nav_home": ("Home", "الرئيسية"),
  "nav_products": ("Products", "المنتجات"),
  "nav_private": ("Private label", "العلامة الخاصة"),
@@ -305,9 +313,10 @@ PRODUCTS = [
 
 PAGES = {  # key: (file, title en/ar, description en/ar)
  "home": ("index.html",
-   ("Collapsible Silicone Water Bottles – Private Label Supplier | R&R Exports", "زجاجات مياه سيليكون قابلة للطي – مورّد علامة خاصة | آر آند آر"),
-   ("Custom-logo collapsible silicone water bottles from India. 4 foldable models, 600–760 ml, MOQ 300 pcs, any colour, US FDA 21 CFR lab-tested. Export to UAE, USA & worldwide.",
-    "زجاجات مياه سيليكون قابلة للطي بشعارك من الهند. 4 طرازات بسعة 600–760 مل، حد أدنى 300 قطعة، أي لون، مُختبَرة وفق US FDA 21 CFR. تصدير إلى الإمارات والولايات المتحدة والعالم.")),
+   ("R&R Exports (RR Exports) – Collapsible Silicone Bottles, India",
+   "آر آند آر إكسبورتس (RR Exports) – زجاجات سيليكون قابلة للطي من الهند"),
+   ("R&R Exports International (RR Exports), Gujarat, India: custom-logo collapsible silicone water bottles. Origami, flip-straw, roll-up and telescopic. MOQ 300.",
+   "آر آند آر إكسبورتس (RR Exports) من غوجارات، الهند: زجاجات مياه سيليكون قابلة للطي بشعارك. أوريغامي وشفّاط قلّاب وملفوفة وتلسكوبية. حد أدنى 300 قطعة.")),
  "products": ("products.html",
    ("Collapsible & Foldable Water Bottles Wholesale – 4 Models | R&R Exports", "زجاجات مياه قابلة للطي بالجملة – 4 طرازات | آر آند آر"),
    ("Compare our 4 collapsible silicone bottles: origami, flip-straw, squeeze roll-up and 760 ml telescopic. Specs, MOQ, lead times and lab reports. Custom logo from 300 pcs.",
@@ -321,9 +330,10 @@ PAGES = {  # key: (file, title en/ar, description en/ar)
    ("Order custom-logo silicone bottles in 5 steps: enquiry, tiered quote, artwork approval, production with pre-dispatch check, and sea/air/courier shipping with export documents.",
     "اطلب زجاجات سيليكون بشعارك في 5 خطوات: الاستفسار، عرض سعر متدرّج، اعتماد التصميم، الإنتاج مع فحص ما قبل الشحن، ثم الشحن مع مستندات التصدير.")),
  "about": ("about.html",
-   ("About R&R Exports International – Drinkware Sourcing from India", "عن آر آند آر إكسبورتس إنترناشونال – توريد أدوات الشرب من الهند"),
-   ("R&R Exports International is a sourcing and export company in Surendranagar, Gujarat, India, supplying private-label collapsible drinkware to retailers and brands.",
-    "آر آند آر إكسبورتس إنترناشونال شركة توريد وتصدير في سورندراناغار، غوجارات، الهند، تورّد أدوات شرب قابلة للطي بعلامة خاصة لتجّار التجزئة والعلامات التجارية.")),
+   ("About RR Exports – R&R Exports International, Gujarat, India",
+   "عن آر آند آر إكسبورتس (RR Exports) – غوجارات، الهند"),
+   ("R&R Exports International, also known as RR Exports or RR International, is a sourcing and export company in Surendranagar, Gujarat, India.",
+   "آر آند آر إكسبورتس إنترناشونال، المعروفة أيضاً باسم RR Exports، شركة توريد وتصدير في سورندراناغار، غوجارات، الهند.")),
  "contact": ("contact.html",
    ("Request a Quote – Collapsible Silicone Bottles | R&R Exports", "اطلب عرض سعر – زجاجات سيليكون قابلة للطي | آر آند آر"),
    ("Get tiered pricing for 300 / 500 / 1,000+ custom-logo collapsible bottles. Email info@rrexportsinternational.com or WhatsApp +91 98822 02101.",
