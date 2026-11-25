@@ -19,6 +19,7 @@ T = {
  "skip": ("Skip to content", "تخطَّ إلى المحتوى"),
  "tagline": ("Sourcing · Private label · Export", "التوريد · العلامة الخاصة · التصدير"),
  "all_btn": ("View all products", "عرض كل المنتجات"),
+ "brochure": ("Product brochure (PDF)", "كتيّب المنتجات (PDF بالإنجليزية)"),
  "aka": ("R&R Exports International is also known as RR Exports, R and R Exports and RR International. We are based in Surendranagar, Gujarat, India, and export collapsible silicone water bottles: origami foldable, flip-straw, squeeze roll-up and telescopic sports bottles.",
          "تُعرف آر آند آر إكسبورتس إنترناشونال أيضاً باسم RR Exports وRR International. مقرّنا سورندراناغار، غوجارات، الهند، ونصدّر زجاجات مياه سيليكون قابلة للطي: أوريغامي وبشفّاط قلّاب وملفوفة وتلسكوبية."),
  "foot_aka": ("RR Exports · Surendranagar, Gujarat, India", "RR Exports · سورندراناغار، غوجارات، الهند"),

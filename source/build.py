@@ -5,6 +5,7 @@ from content import *
 
 ROOT = os.path.dirname(os.path.abspath(__file__))
 OUT = os.path.join(ROOT, "out")
+BROCHURE = "rr-exports-product-brochure.pdf"
 T.update({
  "added": ("In enquiry ✓", "في الاستفسار ✓"), "remove": ("Remove", "إزالة"), "copied": ("Copied", "تم النسخ"),
  "err_req": ("Please fill in the highlighted fields.", "يرجى تعبئة الحقول المحدّدة."),
@@ -134,9 +135,13 @@ def plist(c): return '<ul class="pl">' + "".join(f'<li><b>{c.x(a)}</b> — {c.x(
 def quality(c):
     return '<div class="qual">' + "".join(f'<div><h3>{c.x(a)}</h3><p>{c.x(b)}</p></div>' for a, b in QUAL) + "</div>"
 
+def brochure(c, cls=""):
+    attr = f' class="{cls}"' if cls else ""
+    return f'<a{attr} href="{c.A}{BROCHURE}" target="_blank" rel="noopener">{c.t("brochure")}</a>'
+
 def cta(c):
     return f'''<section class="band cta"><div class="wrap ctain"><div><h2>{c.t("cta_t")}</h2><p>{c.t("cta_p")}</p></div>
-<div class="ctab"><a class="btn pri qopen" href="contact.html">{c.t("quote")}</a><a class="btn light" href="https://wa.me/{PHONE_RAW}" rel="noopener" target="_blank">{ic("wa")} WhatsApp</a></div></div></section>'''
+<div class="ctab"><a class="btn pri qopen" href="contact.html">{c.t("quote")}</a><a class="btn light" href="https://wa.me/{PHONE_RAW}" rel="noopener" target="_blank">{ic("wa")} WhatsApp</a>{brochure(c, "btn light")}</div></div></section>'''
 
 def form(c):
     rows = ""
@@ -257,7 +262,7 @@ def page(c, key, body, ld=(), viewer_on=False, og_img="og-image.jpg", pid=""):
 <footer class="ft"><div class="wrap ftg">
 <div><a class="brand" href="index.html"><img src="{c.A}img/rr-exports-international-logo.jpg" width="44" height="44" alt="" loading="lazy"><span><b>R&amp;R Exports</b><small>INTERNATIONAL</small></span></a><p>{c.t("foot_p")}</p><p>{c.t("foot_aka")}</p></div>
 <div><h2>{c.t("foot_products")}</h2><ul>{prods_f}</ul></div>
-<div><h2>{c.t("foot_company")}</h2><ul>{comp_f}<li><a href="contact.html">{c.t("nav_contact")}</a></li></ul></div>
+<div><h2>{c.t("foot_company")}</h2><ul>{comp_f}<li><a href="contact.html">{c.t("nav_contact")}</a></li><li>{brochure(c)}</li></ul></div>
 <div><h2>{c.t("foot_contact")}</h2><ul class="ftc"><li>{ic("mail")}<a href="mailto:{EMAIL}" dir="ltr">{EMAIL}</a></li><li>{ic("phone")}<a href="tel:+{PHONE_RAW}" dir="ltr">{PHONE}</a></li><li>{ic("pin")}<span>{c.t("addr")}</span></li></ul></div>
 </div><div class="wrap ftb"><span>© 2026 {ORG}</span><a href="{other}" hreflang="{"en" if c.ar else "ar"}">{c.t("lang_other")}</a></div></footer>
 <aside class="drawer" hidden aria-labelledby="dtitle"><div class="dscrim" data-close></div><div class="dpanel" role="dialog" aria-modal="true" aria-labelledby="dtitle">
@@ -299,7 +304,7 @@ def home(c):
 
 def products(c):
     items = [(c.t("crumb_home"), "index.html"), (c.t("nav_products"), "")]
-    body = f'''<section class="band phead"><div class="wrap">{crumbs(c, items)}<h1>{c.t("p_t")}</h1><p class="lead">{c.t("p_p")}</p></div></section>
+    body = f'''<section class="band phead"><div class="wrap">{crumbs(c, items)}<h1>{c.t("p_t")}</h1><p class="lead">{c.t("p_p")}</p><div class="btns">{brochure(c, "btn ghost")}</div></div></section>
 <section class="band"><div class="wrap">{grid(c, PRODUCTS, "h2")}</div></section>
 <section class="band soft"><div class="wrap"><div class="shead"><h2>{c.t("compare")}</h2><p>{c.t("range_p")}</p></div>{range_table(c)}</div></section>
 <section class="band"><div class="wrap"><h2>{c.t("serve_t")}</h2>{serve(c)}</div></section>{cta(c)}'''
@@ -364,7 +369,7 @@ def about(c):
 def contact(c):
     items = [(c.t("crumb_home"), "index.html"), (c.t("nav_contact"), "")]
     body = f'''<section class="band phead"><div class="wrap">{crumbs(c, items)}<h1>{c.t("c_t")}</h1><p class="lead">{c.t("c_p")}</p>
-<div class="btns"><button type="button" class="btn pri qopen">{c.t("quote")}</button></div>
+<div class="btns"><button type="button" class="btn pri qopen">{c.t("quote")}</button>{brochure(c, "btn ghost")}</div>
 <ul class="ccards"><li>{ic("mail", "ic big")}<span>{c.t("email_l")}</span><a href="mailto:{EMAIL}" dir="ltr">{EMAIL}</a></li>
 <li>{ic("wa", "ic big")}<span>{c.t("phone_l")}</span><a href="https://wa.me/{PHONE_RAW}" target="_blank" rel="noopener" dir="ltr">{PHONE}</a></li>
 <li>{ic("pin", "ic big")}<span>{c.t("addr_l")}</span><b>{c.t("addr")}</b></li></ul></div></section>'''
@@ -382,6 +387,7 @@ def build():
     og.save(os.path.join(OUT, "assets", "img", "og-image.jpg"), quality=85)
     for a in ("style.css", "site.js"): shutil.copy(os.path.join(ROOT, a), os.path.join(OUT, "assets", a))
     shutil.copytree(os.path.join(ROOT, "videos"), os.path.join(OUT, "assets", "video"))
+    shutil.copy(os.path.join(ROOT, "brochure", BROCHURE), os.path.join(OUT, "assets", BROCHURE))
     urls = []
     for L in (0, 1):
         c = Ctx(L); d = os.path.join(OUT, "ar") if L else OUT
