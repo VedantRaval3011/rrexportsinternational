@@ -1,0 +1,10 @@
+# The site is already built, so Netlify serves this folder as it is.
+[build]
+  publish = "."
+
+# source/ holds the build scripts and original text: keep it in the repo, hide it from visitors.
+[[redirects]]
+  from = "/source/*"
+  to = "/index.html"
+  status = 404
+  force = true
